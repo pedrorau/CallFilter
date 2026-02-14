@@ -1,0 +1,2 @@
+This project is open source under AGPL-3.0.
+You may study and modify the code, but any redistributed or published application based on it must also make its full source code publicly available under the same license.
