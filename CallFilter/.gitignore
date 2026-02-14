@@ -17,3 +17,11 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+
+# Kotlin Multiplatform
+.konan/
+iosApp/Pods/
+iosApp/.cocoapods/
+iosApp/build/
+shared/build/
+composeApp/build/
