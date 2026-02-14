@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Welcome to CallFilter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] antialiased">
+<div class="flex flex-col min-h-screen max-w-md mx-auto bg-white dark:bg-background-dark shadow-xl relative overflow-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between p-6">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-2xl">verified_user</span>
+</div>
+<button class="text-sm font-semibold text-primary/80 hover:text-primary transition-colors">Skip</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col px-6">
+<div class="pt-4 pb-2">
+<h1 class="text-3xl font-bold tracking-tight text-[#111418] dark:text-white">Welcome to CallFilter</h1>
+<p class="mt-2 text-[#617589] dark:text-gray-400 leading-relaxed">
+                    Your calls, your privacy, completely offline.
+                </p>
+</div>
+<!-- Carousel Section -->
+<div class="mt-8 flex-1">
+<div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 pb-8">
+<!-- Card 1: Privacy -->
+<div class="snap-center shrink-0 w-full flex flex-col gap-6">
+<div class="aspect-[4/3] w-full rounded-xl bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center overflow-hidden relative" data-alt="Abstract blue and teal calming privacy pattern">
+<span class="material-symbols-outlined text-8xl text-primary/20 absolute -right-4 -bottom-4">shield_lock</span>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-7xl text-primary">privacy_tip</span>
+</div>
+</div>
+<div class="space-y-2">
+<h2 class="text-xl font-bold text-[#111418] dark:text-white">Private by Design</h2>
+<p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                All filtering happens offline on your device. Your call logs and contact data never leave your phone.
+                            </p>
+</div>
+</div>
+<!-- Card 2: Automation -->
+<div class="snap-center shrink-0 w-full flex flex-col gap-6">
+<div class="aspect-[4/3] w-full rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center overflow-hidden relative" data-alt="Modern geometric setup and automation illustration">
+<span class="material-symbols-outlined text-8xl text-primary/20 absolute -left-4 -top-4">settings_suggest</span>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-7xl text-primary">auto_mode</span>
+</div>
+</div>
+<div class="space-y-2">
+<h2 class="text-xl font-bold text-[#111418] dark:text-white">Set and Forget</h2>
+<p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                Configure your preferences once. We'll handle the spam and telemarketers while you focus on what matters.
+                            </p>
+</div>
+</div>
+<!-- Card 3: Permissions -->
+<div class="snap-center shrink-0 w-full flex flex-col gap-6">
+<div class="aspect-[4/3] w-full rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 flex items-center justify-center overflow-hidden relative" data-alt="Friendly secure access and permission request illustration">
+<span class="material-symbols-outlined text-8xl text-primary/20 absolute -right-4 -top-4">key</span>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-7xl text-primary">app_registration</span>
+</div>
+</div>
+<div class="space-y-2">
+<h2 class="text-xl font-bold text-[#111418] dark:text-white">Secure Access</h2>
+<p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                CallFilter needs basic permissions to identify callers. We only process what's necessary to protect you.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Page Indicators (Material 3 Style) -->
+<div class="flex justify-center gap-2 mb-8">
+<div class="h-2 w-6 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-primary/20"></div>
+<div class="h-2 w-2 rounded-full bg-primary/20"></div>
+</div>
+</div>
+</main>
+<!-- Footer / Action Area -->
+<footer class="p-6 pt-0 space-y-4">
+<button class="w-full bg-primary text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 group">
+                Enable call protection
+                <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 py-2">
+<span class="material-symbols-outlined text-xs text-[#617589]">lock</span>
+<p class="text-[11px] font-medium uppercase tracking-widest text-[#617589]">End-to-end encrypted privacy</p>
+</div>
+</footer>
+<!-- Background Accents -->
+<div class="absolute -z-10 top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+<div class="absolute top-1/4 -right-20 w-64 h-64 bg-primary/30 rounded-full blur-3xl"></div>
+<div class="absolute bottom-1/4 -left-20 w-64 h-64 bg-teal-300/30 rounded-full blur-3xl"></div>
+</div>
+</div>
+</body></html>

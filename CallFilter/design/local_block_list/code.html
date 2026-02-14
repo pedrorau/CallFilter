@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CallFilter - Local Block List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex justify-center">
+<div class="relative flex h-full min-h-screen w-full max-w-[480px] flex-col bg-white dark:bg-background-dark shadow-sm overflow-x-hidden">
+<!-- Top App Bar / Header -->
+<div class="flex flex-col gap-2 bg-white dark:bg-background-dark p-4 pb-2 sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center h-12 justify-between">
+<button class="text-[#111418] dark:text-white flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex-1 px-2">
+<h1 class="text-[#111418] dark:text-white tracking-tight text-xl font-bold leading-tight">Local Block List</h1>
+</div>
+<button class="text-[#111418] dark:text-white flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="px-1 pb-2">
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Numbers here will be automatically rejected.</p>
+</div>
+</div>
+<!-- Input Section -->
+<div class="flex flex-col gap-4 px-4 py-6 bg-white dark:bg-background-dark">
+<div class="flex w-full items-center gap-3">
+<div class="relative flex-1">
+<input class="form-input flex w-full rounded-xl text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:border-primary h-14 placeholder:text-gray-400 px-4 text-base font-medium transition-all" placeholder="Enter phone number..." type="tel"/>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white flex size-14 shrink-0 items-center justify-center rounded-xl shadow-md shadow-primary/20 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</div>
+<!-- Divider & Title -->
+<div class="px-4 pt-2 pb-2">
+<h3 class="text-[#111418] dark:text-white text-sm font-bold uppercase tracking-wider opacity-60">Blocked Numbers (12)</h3>
+</div>
+<!-- Blocked List -->
+<div class="flex flex-1 flex-col overflow-y-auto">
+<!-- List Item 1 -->
+<div class="flex items-center justify-between px-4 py-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">block</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-base font-semibold">+1 (555) 012-3456</p>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Added 2 days ago</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 flex size-10 items-center justify-center rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center justify-between px-4 py-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">block</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-base font-semibold">+44 20 7946 0958</p>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Added 1 week ago</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 flex size-10 items-center justify-center rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center justify-between px-4 py-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">block</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-base font-semibold">+1 (555) 099-8877</p>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Added 2 weeks ago</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 flex size-10 items-center justify-center rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- List Item 4 -->
+<div class="flex items-center justify-between px-4 py-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">block</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-base font-semibold">+61 2 9876 5432</p>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Added 1 month ago</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 flex size-10 items-center justify-center rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- List Item 5 -->
+<div class="flex items-center justify-between px-4 py-4 border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">block</span>
+</div>
+<div class="flex flex-col">
+<p class="text-[#111418] dark:text-white text-base font-semibold">+1 (800) 555-0199</p>
+<p class="text-gray-500 dark:text-gray-400 text-xs">Added yesterday</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 flex size-10 items-center justify-center rounded-full transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="mt-auto border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-background-dark px-4 pb-3 pt-2">
+<div class="flex gap-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Calls</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">block</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Block List</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Settings</p>
+</a>
+</div>
+</div>
+<!-- Float Notification (Snackbar) Mockup -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] hidden">
+<div class="bg-gray-900 text-white rounded-lg p-4 flex items-center justify-between shadow-xl">
+<span class="text-sm">Number deleted</span>
+<button class="text-primary font-bold text-sm uppercase">Undo</button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:forum.developer.samsung.com)",
+      "WebFetch(domain:us.community.samsung.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:issuetracker.google.com)",
+      "WebFetch(domain:www.hiya.com)",
+      "WebFetch(domain:www.samsung.com)",
+      "WebFetch(domain:www.att.com)"
+    ]
+  }
+}

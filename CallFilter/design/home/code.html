@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CallFilter - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "success-green": "#2e7d32",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-white dark:bg-background-dark text-[#111418] dark:text-white antialiased font-display">
+<div class="relative flex h-screen w-full flex-col bg-white dark:bg-background-dark overflow-hidden">
+<!-- Header -->
+<div class="flex items-center bg-white dark:bg-background-dark p-4 justify-between border-b border-gray-100 dark:border-gray-800">
+<div class="text-[#111418] dark:text-white flex size-10 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">CallFilter</h2>
+<div class="size-10"></div> <!-- Spacer for centering -->
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col items-center justify-center px-6 text-center">
+<!-- Status Indicator Section -->
+<div class="mb-12 flex flex-col items-center">
+<!-- Large Green Shield Circle -->
+<div class="relative flex items-center justify-center w-32 h-32 rounded-full bg-success-green/10 mb-6">
+<div class="flex items-center justify-center w-24 h-24 rounded-full bg-success-green shadow-lg shadow-success-green/20">
+<span class="material-symbols-outlined text-white text-5xl">shield_with_heart</span>
+</div>
+<!-- Small pulsating ring effect (static representation) -->
+<div class="absolute inset-0 rounded-full border-4 border-success-green/20 scale-110"></div>
+</div>
+<h1 class="text-success-green dark:text-green-400 text-3xl font-bold tracking-tight mb-3">
+                    Protection Active
+                </h1>
+<p class="text-gray-600 dark:text-gray-400 text-base max-w-[280px] leading-relaxed">
+                    CallFilter is protecting you from unwanted calls offline.
+                </p>
+</div>
+<!-- Action Buttons Section -->
+<div class="w-full max-w-sm space-y-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 px-6 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">settings_input_component</span>
+                    Configure Rules
+                </button>
+<button class="w-full bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 text-primary dark:text-blue-400 font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">info</span>
+                    How it works
+                </button>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="flex gap-2 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-background-dark px-4 pb-6 pt-3 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">home</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">history</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">History</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Settings</p>
+</a>
+</div>
+</div>
+</body></html>
