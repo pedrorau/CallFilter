@@ -2,8 +2,10 @@ package com.pedrorau.callfilter.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +22,8 @@ import com.pedrorau.callfilter.ui.theme.*
 fun HomeScreen(
     state: HomeState,
     onConfigureRules: () -> Unit,
-    onHowItWorks: () -> Unit
+    onHowItWorks: () -> Unit,
+    onRequestBatteryOptimization: () -> Unit = {}
 ) {
     val (statusColor, statusTitle, statusDescription) = when (state.systemState) {
         SystemState.PROTECTION_ACTIVE -> Triple(
@@ -51,7 +54,6 @@ fun HomeScreen(
             .background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding()
     ) {
-        // Header
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,25 +67,26 @@ fun HomeScreen(
             )
         }
 
-        // Main content
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Shield icon
+            Spacer(modifier = Modifier.height(16.dp))
+
             Box(
                 modifier = Modifier
-                    .size(128.dp)
+                    .size(112.dp)
                     .clip(CircleShape)
                     .background(statusColor.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(96.dp)
+                        .size(80.dp)
                         .clip(CircleShape)
                         .background(statusColor),
                     contentAlignment = Alignment.Center
@@ -95,12 +98,12 @@ fun HomeScreen(
                             SystemState.POTENTIALLY_INCOMPATIBLE -> "\u26A0\uFE0F"
                             SystemState.NOT_CONFIGURED -> "\u274C"
                         },
-                        fontSize = 40.sp
+                        fontSize = 36.sp
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
                 text = statusTitle,
@@ -109,7 +112,7 @@ fun HomeScreen(
                 color = statusColor
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = statusDescription,
@@ -119,9 +122,8 @@ fun HomeScreen(
                 modifier = Modifier.padding(horizontal = 48.dp)
             )
 
-            // Incompatibility warning banner
             if (state.systemState == SystemState.POTENTIALLY_INCOMPATIBLE) {
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Card(
                     modifier = Modifier.padding(horizontal = 24.dp),
@@ -130,23 +132,60 @@ fun HomeScreen(
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
+                    Text(
+                        text = "Some Samsung devices with Android 12+ do not allow third-party apps to filter calls. " +
+                                "If you receive a call and it is not blocked, this device is not compatible.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = WarningAmber,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+
+            if (state.showBatteryOptimization &&
+                (state.systemState == SystemState.PROTECTION_ACTIVE || state.systemState == SystemState.POTENTIALLY_INCOMPATIBLE)
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Card(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Primary.copy(alpha = 0.08f)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
                     Column(
                         modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
-                            text = "Some Samsung devices with Android 12+ do not allow third-party apps to filter calls. " +
-                                    "If you receive a call and it is not blocked, this device is not compatible.",
+                            text = "Some phones may stop background call filtering. " +
+                                    "Allow unrestricted battery usage for better reliability.",
                             style = MaterialTheme.typography.bodySmall,
-                            color = WarningAmber,
+                            color = TextSecondary,
                             textAlign = TextAlign.Center
                         )
+                        Button(
+                            onClick = onRequestBatteryOptimization,
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Primary),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                "Allow unrestricted usage",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp
+                            )
+                        }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Action buttons
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -33,7 +33,6 @@ fun BlockedListScreen(
             .background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding()
     ) {
-        // Top bar
         TopAppBar(
             title = {
                 Column {
@@ -52,7 +51,6 @@ fun BlockedListScreen(
             }
         )
 
-        // Input section
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,7 +84,6 @@ fun BlockedListScreen(
             }
         }
 
-        // Count label
         if (state.numbers.isNotEmpty()) {
             Text(
                 text = "BLOCKED NUMBERS (${state.numbers.size})",
@@ -98,7 +95,6 @@ fun BlockedListScreen(
             )
         }
 
-        // List
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.numbers, key = { it.id }) { blockedNumber ->
                 Row(
@@ -108,7 +104,6 @@ fun BlockedListScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Icon
                     Box(
                         modifier = Modifier
                             .size(40.dp)
@@ -119,7 +114,6 @@ fun BlockedListScreen(
                         Text("\uD83D\uDEAB", fontSize = 18.sp)
                     }
 
-                    // Number
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = blockedNumber.number,
@@ -128,7 +122,6 @@ fun BlockedListScreen(
                         )
                     }
 
-                    // Delete button
                     IconButton(
                         onClick = { onRemoveNumber(blockedNumber.id) }
                     ) {

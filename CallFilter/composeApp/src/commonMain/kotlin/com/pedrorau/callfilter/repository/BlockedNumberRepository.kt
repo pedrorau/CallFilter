@@ -2,7 +2,6 @@ package com.pedrorau.callfilter.repository
 
 import com.pedrorau.callfilter.model.BlockedNumber
 import com.russhwolf.settings.Settings
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
 

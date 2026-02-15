@@ -1,11 +1,13 @@
 package com.pedrorau.callfilter
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.role.RoleManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,29 +20,25 @@ import com.pedrorau.callfilter.model.SystemState
 import com.pedrorau.callfilter.system.SystemStateChecker
 import com.pedrorau.callfilter.ui.AppNavigation
 import com.pedrorau.callfilter.ui.theme.CallFilterTheme
+import androidx.core.net.toUri
 
 class MainActivity : ComponentActivity() {
 
-    companion object {
-        private const val TAG = "CallFilterMain"
-    }
-
     private lateinit var systemStateChecker: SystemStateChecker
     private var systemState by mutableStateOf(SystemState.NOT_CONFIGURED)
+    private var isBatteryOptimized by mutableStateOf(false)
+    private var notificationPermissionResult by mutableStateOf<Boolean?>(null)
 
     private val requestRoleLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        systemState = systemStateChecker.getSystemState()
-        requestPhonePermissions()
+        refreshState()
     }
 
-    private val requestPermissionsLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        permissions.forEach { (permission, granted) ->
-            Log.d(TAG, "Permission $permission granted: $granted")
-        }
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        notificationPermissionResult = granted
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,31 +46,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         systemStateChecker = SystemStateChecker(this)
-        systemState = systemStateChecker.getSystemState()
+        refreshState()
 
         if (systemState == SystemState.NOT_CONFIGURED) {
             requestCallScreeningRole()
-        } else {
-            requestPhonePermissions()
         }
 
         setContent {
             CallFilterTheme {
-                AppNavigation(systemState = systemState)
+                AppNavigation(
+                    systemState = systemState,
+                    isBatteryOptimized = isBatteryOptimized,
+                    getNotificationPermissionResult = { notificationPermissionResult },
+                    onRequestBatteryOptimization = { requestBatteryOptimization() },
+                    onRequestNotificationPermission = { requestNotificationPermission() },
+                    onNotificationPermissionConsumed = { notificationPermissionResult = null }
+                )
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        systemState = systemStateChecker.getSystemState()
-        Log.d(TAG, "SystemState: $systemState")
+        refreshState()
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val roleManager = getSystemService(ROLE_SERVICE) as? RoleManager
-            val hasRole = roleManager?.isRoleHeld(RoleManager.ROLE_CALL_SCREENING) ?: false
-            Log.d(TAG, "ROLE_CALL_SCREENING held: $hasRole")
-        }
+    private fun refreshState() {
+        systemState = systemStateChecker.getSystemState()
+        isBatteryOptimized = systemStateChecker.isBatteryOptimized()
     }
 
     private fun requestCallScreeningRole() {
@@ -85,32 +86,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun requestPhonePermissions() {
-        val permissions = mutableListOf<String>()
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissions.add(Manifest.permission.READ_PHONE_STATE)
+    @SuppressLint("BatteryLife")
+    private fun requestBatteryOptimization() {
+        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+            data = "package:$packageName".toUri()
         }
+        startActivity(intent)
+    }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissions.add(Manifest.permission.ANSWER_PHONE_CALLS)
-        }
-
+    private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+            val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            if (granted) {
+                notificationPermissionResult = true
+            } else {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
-        }
-
-        if (permissions.isNotEmpty()) {
-            Log.d(TAG, "Requesting permissions: $permissions")
-            requestPermissionsLauncher.launch(permissions.toTypedArray())
+        } else {
+            notificationPermissionResult = true
         }
     }
 }

@@ -57,7 +57,6 @@ fun OnboardingScreen(
             .background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding()
     ) {
-        // Header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,7 +75,6 @@ fun OnboardingScreen(
             }
         }
 
-        // Content
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -91,7 +89,6 @@ fun OnboardingScreen(
                 ) {
                     val currentPage = pages[page]
 
-                    // Icon placeholder
                     Box(
                         modifier = Modifier
                             .size(160.dp)
@@ -132,7 +129,6 @@ fun OnboardingScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Page indicators
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -157,7 +153,6 @@ fun OnboardingScreen(
             }
         }
 
-        // Footer
         Column(
             modifier = Modifier
                 .fillMaxWidth()

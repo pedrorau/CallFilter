@@ -1,7 +1,6 @@
 package com.pedrorau.callfilter.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pedrorau.callfilter.model.RuleType
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
+import com.pedrorau.callfilter.ui.theme.WarningAmber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +34,6 @@ fun RulesScreen(
             .background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding()
     ) {
-        // Top bar
         TopAppBar(
             title = {
                 Text(
@@ -48,13 +48,11 @@ fun RulesScreen(
             }
         )
 
-        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            // Section label
             Text(
                 text = "ACTIVE FILTERS",
                 style = MaterialTheme.typography.labelSmall,
@@ -64,7 +62,6 @@ fun RulesScreen(
                 modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
             )
 
-            // Rules list
             state.rules.forEach { rule ->
                 val (title, subtitle) = when (rule.type) {
                     RuleType.BLOCK_DIGIT_COUNT -> "Block 8-digit numbers" to "Common spam format"
@@ -99,7 +96,6 @@ fun RulesScreen(
                         )
                     }
 
-                    // Action links for specific rules
                     if (rule.type == RuleType.BLOCK_FROM_LIST) {
                         TextButton(
                             onClick = onEditBlockedList,
@@ -157,6 +153,26 @@ fun RulesScreen(
                     onCheckedChange = onToggleNotifications,
                     colors = SwitchDefaults.colors(checkedTrackColor = Primary)
                 )
+            }
+
+            // Permission denied message
+            if (state.notificationPermissionDenied) {
+                Card(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = WarningAmber.copy(alpha = 0.1f)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = "Notification permission is required to show alerts when calls are blocked. " +
+                                "Please enable it in your device settings.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = WarningAmber,
+                        modifier = Modifier.padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

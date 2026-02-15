@@ -100,11 +100,8 @@ class RuleEngineTest {
             Rule("2", RuleType.BLOCK_FROM_LIST, enabled = true),
             Rule("3", RuleType.BLOCK_REGEX, enabled = false, config = RuleConfig.RegexPattern(".*"))
         )
-        // 8 digits → rejected by digit count rule
         assertEquals(RuleResult.REJECT, engine.evaluate("12345678", rules))
-        // In blocked list → rejected
         assertEquals(RuleResult.REJECT, engine.evaluate("+56999999999", rules))
-        // Not matching any active rule → allowed
         assertEquals(RuleResult.ALLOW, engine.evaluate("+56911111111", rules))
     }
 
@@ -114,7 +111,6 @@ class RuleEngineTest {
         val rules = listOf(
             Rule("3", RuleType.BLOCK_REGEX, enabled = true, config = RuleConfig.RegexPattern("[invalid"))
         )
-        // Invalid regex should not crash, just not match
         assertEquals(RuleResult.ALLOW, engine.evaluate("12345678", rules))
     }
 
@@ -133,7 +129,6 @@ class RuleEngineTest {
         val rules = listOf(
             Rule("1", RuleType.BLOCK_DIGIT_COUNT, enabled = true, config = RuleConfig.DigitCount(8))
         )
-        // Number with dashes/spaces — only digits count
         assertEquals(RuleResult.REJECT, engine.evaluate("1234-5678", rules))
         assertEquals(RuleResult.REJECT, engine.evaluate("1234 5678", rules))
     }

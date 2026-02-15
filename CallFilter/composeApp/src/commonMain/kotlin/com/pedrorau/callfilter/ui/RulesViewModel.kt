@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class RulesState(
     val rules: List<Rule> = emptyList(),
-    val notificationsEnabled: Boolean = false
+    val notificationsEnabled: Boolean = false,
+    val notificationPermissionDenied: Boolean = false
 )
 
 class RulesViewModel(
@@ -21,7 +22,7 @@ class RulesViewModel(
     val state: StateFlow<RulesState> = _state
 
     fun loadRules() {
-        _state.value = RulesState(
+        _state.value = _state.value.copy(
             rules = ruleRepository.getRules(),
             notificationsEnabled = preferencesRepository.isNotificationsEnabled()
         )
@@ -34,6 +35,18 @@ class RulesViewModel(
 
     fun toggleNotifications(enabled: Boolean) {
         preferencesRepository.setNotificationsEnabled(enabled)
-        _state.value = _state.value.copy(notificationsEnabled = enabled)
+        _state.value = _state.value.copy(
+            notificationsEnabled = enabled,
+            notificationPermissionDenied = false
+        )
     }
+
+    fun onNotificationPermissionDenied() {
+        preferencesRepository.setNotificationsEnabled(false)
+        _state.value = _state.value.copy(
+            notificationsEnabled = false,
+            notificationPermissionDenied = true
+        )
+    }
+
 }

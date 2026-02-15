@@ -43,7 +43,6 @@ fun PatternRuleScreen(
             .background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding()
     ) {
-        // Top bar
         TopAppBar(
             title = {
                 Text("Pattern Rule", fontWeight = FontWeight.Bold)
@@ -55,7 +54,6 @@ fun PatternRuleScreen(
             }
         )
 
-        // Scrollable content
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -63,7 +61,6 @@ fun PatternRuleScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Input section
             Text(
                 text = "Regular Expression",
                 style = MaterialTheme.typography.bodyLarge,
@@ -98,7 +95,6 @@ fun PatternRuleScreen(
                 color = TextSecondary
             )
 
-            // Validation status
             if (state.pattern.isNotBlank()) {
                 if (state.isValid) {
                     Card(
@@ -186,7 +182,6 @@ fun PatternRuleScreen(
                 )
             }
 
-            // Examples section
             Text(
                 text = "COMMON EXAMPLES",
                 style = MaterialTheme.typography.labelSmall,
@@ -219,7 +214,6 @@ fun PatternRuleScreen(
             }
         }
 
-        // Footer actions
         Column(
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,8 +1,10 @@
 package com.pedrorau.callfilter.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +20,14 @@ object Routes {
 }
 
 @Composable
-fun AppNavigation(systemState: SystemState = SystemState.NOT_CONFIGURED) {
+fun AppNavigation(
+    systemState: SystemState = SystemState.NOT_CONFIGURED,
+    isBatteryOptimized: Boolean = false,
+    getNotificationPermissionResult: () -> Boolean? = { null },
+    onRequestBatteryOptimization: () -> Unit = {},
+    onRequestNotificationPermission: () -> Unit = {},
+    onNotificationPermissionConsumed: () -> Unit = {}
+) {
     val navController = rememberNavController()
     val onboardingViewModel: OnboardingViewModel = viewModel { OnboardingViewModel() }
 
@@ -50,22 +59,51 @@ fun AppNavigation(systemState: SystemState = SystemState.NOT_CONFIGURED) {
         composable(Routes.HOME) {
             val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
             homeViewModel.updateSystemState(systemState)
+            homeViewModel.updateBatteryOptimization(isBatteryOptimized)
             val state by homeViewModel.state.collectAsState()
             HomeScreen(
                 state = state,
                 onConfigureRules = { navController.navigate(Routes.RULES) },
-                onHowItWorks = { navController.navigate(Routes.ONBOARDING) }
+                onHowItWorks = { navController.navigate(Routes.ONBOARDING) },
+                onRequestBatteryOptimization = onRequestBatteryOptimization
             )
         }
 
         composable(Routes.RULES) {
             val rulesViewModel: RulesViewModel = viewModel { RulesViewModel() }
-            rulesViewModel.loadRules()
+
+            LaunchedEffect(Unit) {
+                rulesViewModel.loadRules()
+            }
+
+            LaunchedEffect(Unit) {
+                snapshotFlow { getNotificationPermissionResult() }
+                    .collect { result ->
+                        when (result) {
+                            true -> {
+                                rulesViewModel.toggleNotifications(true)
+                                onNotificationPermissionConsumed()
+                            }
+                            false -> {
+                                rulesViewModel.onNotificationPermissionDenied()
+                                onNotificationPermissionConsumed()
+                            }
+                            null -> { /* waiting for result */ }
+                        }
+                    }
+            }
+
             val state by rulesViewModel.state.collectAsState()
             RulesScreen(
                 state = state,
                 onToggleRule = { id, enabled -> rulesViewModel.toggleRule(id, enabled) },
-                onToggleNotifications = { rulesViewModel.toggleNotifications(it) },
+                onToggleNotifications = { enabled ->
+                    if (enabled) {
+                        onRequestNotificationPermission()
+                    } else {
+                        rulesViewModel.toggleNotifications(false)
+                    }
+                },
                 onEditPattern = { navController.navigate(Routes.PATTERN_RULE) },
                 onEditBlockedList = { navController.navigate(Routes.BLOCKED_LIST) },
                 onBack = { navController.popBackStack() }
@@ -74,7 +112,11 @@ fun AppNavigation(systemState: SystemState = SystemState.NOT_CONFIGURED) {
 
         composable(Routes.PATTERN_RULE) {
             val patternViewModel: PatternRuleViewModel = viewModel { PatternRuleViewModel() }
-            patternViewModel.loadPattern()
+
+            LaunchedEffect(Unit) {
+                patternViewModel.loadPattern()
+            }
+
             val state by patternViewModel.state.collectAsState()
             PatternRuleScreen(
                 state = state,
@@ -86,7 +128,11 @@ fun AppNavigation(systemState: SystemState = SystemState.NOT_CONFIGURED) {
 
         composable(Routes.BLOCKED_LIST) {
             val blockedListViewModel: BlockedListViewModel = viewModel { BlockedListViewModel() }
-            blockedListViewModel.loadNumbers()
+
+            LaunchedEffect(Unit) {
+                blockedListViewModel.loadNumbers()
+            }
+
             val state by blockedListViewModel.state.collectAsState()
             BlockedListScreen(
                 state = state,

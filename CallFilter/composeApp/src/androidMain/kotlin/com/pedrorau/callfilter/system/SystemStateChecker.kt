@@ -3,6 +3,7 @@ package com.pedrorau.callfilter.system
 import android.app.role.RoleManager
 import android.content.Context
 import android.os.Build
+import android.os.PowerManager
 import com.pedrorau.callfilter.model.SystemState
 import com.pedrorau.callfilter.repository.PreferencesRepository
 
@@ -19,6 +20,12 @@ class SystemStateChecker(
             return SystemState.POTENTIALLY_INCOMPATIBLE
         }
         return SystemState.PROTECTION_ACTIVE
+    }
+
+    fun isBatteryOptimized(): Boolean {
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+            ?: return false
+        return !powerManager.isIgnoringBatteryOptimizations(context.packageName)
     }
 
     private fun isCallScreeningRoleHeld(): Boolean {

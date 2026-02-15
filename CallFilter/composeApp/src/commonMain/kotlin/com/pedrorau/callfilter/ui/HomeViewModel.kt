@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 data class HomeState(
-    val systemState: SystemState = SystemState.NOT_CONFIGURED
+    val systemState: SystemState = SystemState.NOT_CONFIGURED,
+    val showBatteryOptimization: Boolean = false
 )
 
 class HomeViewModel : ViewModel() {
@@ -16,5 +17,9 @@ class HomeViewModel : ViewModel() {
 
     fun updateSystemState(systemState: SystemState) {
         _state.value = _state.value.copy(systemState = systemState)
+    }
+
+    fun updateBatteryOptimization(showBanner: Boolean) {
+        _state.value = _state.value.copy(showBatteryOptimization = showBanner)
     }
 }
