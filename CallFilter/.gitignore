@@ -25,3 +25,7 @@ iosApp/.cocoapods/
 iosApp/build/
 shared/build/
 composeApp/build/
+
+keystore.properties
+*.jks
+*.keystore

@@ -21,7 +21,7 @@
         </activity>
 
         <service
-                android:name="com.pedrorau.callfilter.service.CallBlockerService"
+                android:name=".service.CallBlockerService"
                 android:exported="true"
                 android:permission="android.permission.BIND_SCREENING_SERVICE">
             <intent-filter>
