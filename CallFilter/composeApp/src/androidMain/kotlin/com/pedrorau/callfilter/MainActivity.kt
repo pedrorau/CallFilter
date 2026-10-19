@@ -77,12 +77,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun requestCallScreeningRole() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val roleManager = getSystemService(ROLE_SERVICE) as? RoleManager ?: return
-            if (!roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) {
-                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
-                requestRoleLauncher.launch(intent)
-            }
+        val roleManager = getSystemService(ROLE_SERVICE) as? RoleManager ?: return
+        if (!roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) {
+            val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
+            requestRoleLauncher.launch(intent)
         }
     }
 

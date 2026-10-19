@@ -29,7 +29,6 @@ class SystemStateChecker(
     }
 
     private fun isCallScreeningRoleHeld(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
         val roleManager = context.getSystemService(Context.ROLE_SERVICE) as? RoleManager
             ?: return false
         return roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)

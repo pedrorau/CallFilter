@@ -3,6 +3,7 @@ package com.pedrorau.callfilter.service
 import android.telecom.Call
 import android.telecom.CallScreeningService
 import com.pedrorau.callfilter.engine.RuleEngine
+import com.pedrorau.callfilter.engine.platformPhoneNumberNormalizer
 import com.pedrorau.callfilter.model.RuleResult
 import com.pedrorau.callfilter.notification.BlockNotificationManager
 import com.pedrorau.callfilter.repository.BlockedNumberRepository
@@ -15,6 +16,7 @@ class CallBlockerService : CallScreeningService() {
     private val blockedNumberRepository by lazy { BlockedNumberRepository() }
     private val preferencesRepository by lazy { PreferencesRepository() }
     private val notificationManager by lazy { BlockNotificationManager(this) }
+    private val normalizer by lazy { platformPhoneNumberNormalizer() }
 
     private val ruleEngine by lazy {
         RuleEngine(blockedNumberLookup = { blockedNumberRepository.containsNumber(it) })
@@ -27,7 +29,7 @@ class CallBlockerService : CallScreeningService() {
 
         val rules = ruleRepository.getRules()
 
-        val result = ruleEngine.evaluate(phoneNumber, rules)
+        val result = ruleEngine.evaluate(normalizer.normalize(phoneNumber), rules)
 
         val response = CallResponse.Builder()
 

@@ -1,15 +1,19 @@
 package com.pedrorau.callfilter.engine
 
+import com.pedrorau.callfilter.model.PhoneNumber
 import com.pedrorau.callfilter.model.Rule
 import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.model.RuleResult
 import com.pedrorau.callfilter.model.RuleType
 
 class RuleEngine(
-    private val blockedNumberLookup: (String) -> Boolean = { false }
+    private val blockedNumberLookup: (e164: String) -> Boolean = { false }
 ) {
 
-    fun evaluate(phoneNumber: String, rules: List<Rule>): RuleResult {
+    fun evaluate(phoneNumber: String, rules: List<Rule>): RuleResult =
+        evaluate(PhoneNumber.fromRaw(phoneNumber), rules)
+
+    fun evaluate(phoneNumber: PhoneNumber, rules: List<Rule>): RuleResult {
         val activeRules = rules.filter { it.enabled }
         for (rule in activeRules) {
             if (matches(phoneNumber, rule)) {
@@ -19,26 +23,30 @@ class RuleEngine(
         return RuleResult.ALLOW
     }
 
-    private fun matches(phoneNumber: String, rule: Rule): Boolean {
+    private fun matches(phoneNumber: PhoneNumber, rule: Rule): Boolean {
         return when (rule.type) {
             RuleType.BLOCK_DIGIT_COUNT -> matchesDigitCount(phoneNumber, rule.config)
-            RuleType.BLOCK_FROM_LIST -> blockedNumberLookup(phoneNumber)
+            RuleType.BLOCK_FROM_LIST -> phoneNumber.e164.isNotEmpty() && blockedNumberLookup(phoneNumber.e164)
             RuleType.BLOCK_REGEX -> matchesRegex(phoneNumber, rule.config)
             RuleType.BLOCK_ALL -> true
         }
     }
 
-    private fun matchesDigitCount(phoneNumber: String, config: RuleConfig): Boolean {
+    // Counts digits as received and as a national number, so "+51 1234 5678" and "12345678" both count as 8.
+    private fun matchesDigitCount(phoneNumber: PhoneNumber, config: RuleConfig): Boolean {
         val count = (config as? RuleConfig.DigitCount)?.count ?: return false
-        val digitsOnly = phoneNumber.filter { it.isDigit() }
-        return digitsOnly.length == count
+        val rawDigits = phoneNumber.raw.count { it.isDigit() }
+        return rawDigits == count || phoneNumber.national.length == count
     }
 
-    private fun matchesRegex(phoneNumber: String, config: RuleConfig): Boolean {
+    // Tries every form so users can write patterns in international (^\+51) or local (^\d{8}$) style.
+    private fun matchesRegex(phoneNumber: PhoneNumber, config: RuleConfig): Boolean {
         val pattern = (config as? RuleConfig.RegexPattern)?.pattern
         if (pattern.isNullOrBlank()) return false
         return try {
-            Regex(pattern).containsMatchIn(phoneNumber)
+            val regex = Regex(pattern)
+            listOf(phoneNumber.raw, phoneNumber.e164, phoneNumber.national)
+                .any { regex.containsMatchIn(it) }
         } catch (_: Exception) {
             false
         }

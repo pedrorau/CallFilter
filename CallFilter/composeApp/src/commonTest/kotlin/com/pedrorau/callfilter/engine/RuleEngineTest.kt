@@ -1,5 +1,6 @@
 package com.pedrorau.callfilter.engine
 
+import com.pedrorau.callfilter.model.PhoneNumber
 import com.pedrorau.callfilter.model.Rule
 import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.model.RuleResult
@@ -131,5 +132,45 @@ class RuleEngineTest {
         )
         assertEquals(RuleResult.REJECT, engine.evaluate("1234-5678", rules))
         assertEquals(RuleResult.REJECT, engine.evaluate("1234 5678", rules))
+    }
+
+    @Test
+    fun digitCountUsesNationalNumberWhenCountryCodeIsPresent() {
+        val engine = RuleEngine()
+        val rules = listOf(
+            Rule("1", RuleType.BLOCK_DIGIT_COUNT, enabled = true, config = RuleConfig.DigitCount(8))
+        )
+        val number = PhoneNumber(raw = "+51 1234 5678", e164 = "+5112345678", national = "12345678")
+        assertEquals(RuleResult.REJECT, engine.evaluate(number, rules))
+    }
+
+    @Test
+    fun blockedListMatchesSameNumberInDifferentFormats() {
+        val blockedNumbers = setOf("+51987654321")
+        val engine = RuleEngine(blockedNumberLookup = { it in blockedNumbers })
+        val rules = listOf(Rule("2", RuleType.BLOCK_FROM_LIST, enabled = true))
+        val local = PhoneNumber(raw = "987 654 321", e164 = "+51987654321", national = "987654321")
+        assertEquals(RuleResult.REJECT, engine.evaluate(local, rules))
+    }
+
+    @Test
+    fun unknownCallerIsNotMatchedByBlockedList() {
+        val engine = RuleEngine(blockedNumberLookup = { true })
+        val rules = listOf(Rule("2", RuleType.BLOCK_FROM_LIST, enabled = true))
+        assertEquals(RuleResult.ALLOW, engine.evaluate("", rules))
+    }
+
+    @Test
+    fun regexMatchesInternationalOrNationalForm() {
+        val engine = RuleEngine()
+        val number = PhoneNumber(raw = "987654321", e164 = "+51987654321", national = "987654321")
+        val international = listOf(
+            Rule("3", RuleType.BLOCK_REGEX, enabled = true, config = RuleConfig.RegexPattern("^\\+51"))
+        )
+        val national = listOf(
+            Rule("3", RuleType.BLOCK_REGEX, enabled = true, config = RuleConfig.RegexPattern("^9\\d{8}$"))
+        )
+        assertEquals(RuleResult.REJECT, engine.evaluate(number, international))
+        assertEquals(RuleResult.REJECT, engine.evaluate(number, national))
     }
 }

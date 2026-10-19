@@ -1,11 +1,16 @@
 package com.pedrorau.callfilter.repository
 
+import com.pedrorau.callfilter.engine.PhoneNumberNormalizer
+import com.pedrorau.callfilter.engine.platformPhoneNumberNormalizer
 import com.pedrorau.callfilter.model.BlockedNumber
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
 
-class BlockedNumberRepository(private val settings: Settings = Settings()) {
+class BlockedNumberRepository(
+    private val settings: Settings = Settings(),
+    private val normalizer: PhoneNumberNormalizer = platformPhoneNumberNormalizer()
+) {
 
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -23,9 +28,11 @@ class BlockedNumberRepository(private val settings: Settings = Settings()) {
         }
     }
 
-    fun addNumber(number: String) {
+    fun addNumber(input: String) {
+        val number = normalizer.normalize(input).e164
+        if (number.isEmpty()) return
         val list = getBlockedNumbers().toMutableList()
-        if (list.any { it.number == number }) return
+        if (list.any { normalizer.normalize(it.number).e164 == number }) return
         val id = "${number.hashCode()}_${Random.nextInt()}"
         list.add(
             BlockedNumber(
@@ -42,8 +49,9 @@ class BlockedNumberRepository(private val settings: Settings = Settings()) {
         save(list)
     }
 
-    fun containsNumber(number: String): Boolean {
-        return getBlockedNumbers().any { it.number == number }
+    /** [e164] must already be normalized. Stored entries are normalized too, covering ones saved before normalization existed. */
+    fun containsNumber(e164: String): Boolean {
+        return getBlockedNumbers().any { normalizer.normalize(it.number).e164 == e164 }
     }
 
     private fun save(list: List<BlockedNumber>) {
