@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">CallFilter</string>
+    <string name="common_cancel">Cancel</string>
+
+    <!-- Home -->
+    <string name="home_status_active_title">Protection Active</string>
+    <string name="home_status_active_desc">CallFilter is protecting you from unwanted calls offline.</string>
+    <string name="home_status_incomplete_title">Incomplete Setup</string>
+    <string name="home_status_incomplete_desc">Some settings need attention for full protection.</string>
+    <string name="home_status_not_configured_title">Not Configured</string>
+    <string name="home_status_not_configured_desc">Enable call screening to start blocking unwanted calls.</string>
+    <string name="home_status_incompatible_title">Possibly Incompatible</string>
+    <string name="home_status_incompatible_desc">Call screening is enabled, but your device may not support third-party call blocking.</string>
+    <string name="home_samsung_warning">Some Samsung devices with Android 12+ do not allow third-party apps to filter calls. If you receive a call and it is not blocked, this device is not compatible.</string>
+    <string name="home_battery_message">Some phones may stop background call filtering. Allow unrestricted battery usage for better reliability.</string>
+    <string name="home_battery_action">Allow unrestricted usage</string>
+    <string name="home_configure_rules">Configure Rules</string>
+    <string name="home_how_it_works">How it works</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_privacy_title">Private by Design</string>
+    <string name="onboarding_privacy_desc">All filtering happens offline on your device. Your call data never leaves your phone.</string>
+    <string name="onboarding_automation_title">Set and Forget</string>
+    <string name="onboarding_automation_desc">Configure your preferences once. We will handle spam and telemarketers while you focus on what matters.</string>
+    <string name="onboarding_permissions_title">Enable Protection</string>
+    <string name="onboarding_permissions_desc">CallFilter needs to be set as your call screening app to block unwanted calls automatically.</string>
+    <string name="onboarding_enable">Enable call protection</string>
+    <string name="onboarding_next">Next</string>
+
+    <!-- Rules -->
+    <string name="rules_title">Call Filtering Rules</string>
+    <string name="rules_active_filters">ACTIVE FILTERS</string>
+    <string name="rule_digit_count_title">Block %1$d-digit numbers</string>
+    <string name="rule_digit_count_desc">Common spam format</string>
+    <string name="rule_list_title">Block local list</string>
+    <string name="rule_list_desc">Numbers you added manually</string>
+    <string name="rule_regex_title">Pattern matching</string>
+    <string name="rule_regex_desc">Regex filtering</string>
+    <string name="rule_all_title">Block all calls</string>
+    <string name="rule_all_desc">Reject every incoming call</string>
+    <string name="rules_edit_list">Edit local list</string>
+    <string name="rules_edit_pattern">Edit pattern</string>
+    <string name="rules_notify_title">Notify on block</string>
+    <string name="rules_notify_desc">Receive a notification when a call is blocked</string>
+    <string name="rules_notification_denied">Notification permission is required to show alerts when calls are blocked. Please enable it in your device settings.</string>
+
+    <!-- Pattern rule -->
+    <string name="pattern_title">Pattern Rule</string>
+    <string name="pattern_label">Regular Expression (regex)</string>
+    <string name="pattern_placeholder">e.g. %1$s</string>
+    <string name="pattern_help">Use this for advanced filtering, like blocking every call from a country code.</string>
+    <string name="pattern_valid_title">Pattern valid</string>
+    <string name="pattern_valid_desc">This regex syntax is correct and ready to use.</string>
+    <string name="pattern_invalid_title">Invalid pattern</string>
+    <string name="pattern_error_too_long">Pattern too long (max %1$d characters)</string>
+    <string name="pattern_error_syntax">Invalid regex syntax: %1$s</string>
+    <string name="pattern_saved">Pattern saved successfully!</string>
+    <string name="pattern_examples">COMMON EXAMPLES</string>
+    <string name="pattern_example_digits">Numbers with exactly 8 digits</string>
+    <string name="pattern_example_country">Every call from Mexico (+52)</string>
+    <string name="pattern_example_lima">Landlines in Lima, Peru (+51 1)</string>
+    <string name="pattern_save">Validate &amp; Save</string>
+
+    <!-- Blocked list -->
+    <string name="blocked_title">Local Block List</string>
+    <string name="blocked_subtitle">Numbers here will be automatically rejected.</string>
+    <string name="blocked_input_placeholder">Enter phone number…</string>
+    <string name="blocked_count">BLOCKED NUMBERS (%1$d)</string>
+    <string name="blocked_empty_title">No blocked numbers yet</string>
+    <string name="blocked_empty_desc">Add numbers above to start blocking.</string>
+</resources>

@@ -59,6 +59,10 @@ android {
     buildFeatures {
         compose = true
     }
+    // Lists the app's languages so Android 13+ offers a per-app language picker in system settings.
+    androidResources {
+        generateLocaleConfig = true
+    }
 }
 
 kotlin {

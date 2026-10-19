@@ -13,6 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pedrorau.callfilter.resources.*
+import org.jetbrains.compose.resources.stringResource
+import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.model.RuleType
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
@@ -37,7 +40,7 @@ fun RulesScreen(
         TopAppBar(
             title = {
                 Text(
-                    "Call Filtering Rules",
+                    stringResource(Res.string.rules_title),
                     fontWeight = FontWeight.Bold
                 )
             },
@@ -54,7 +57,7 @@ fun RulesScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "ACTIVE FILTERS",
+                text = stringResource(Res.string.rules_active_filters),
                 style = MaterialTheme.typography.labelSmall,
                 color = Primary,
                 fontWeight = FontWeight.Bold,
@@ -64,10 +67,17 @@ fun RulesScreen(
 
             state.rules.forEach { rule ->
                 val (title, subtitle) = when (rule.type) {
-                    RuleType.BLOCK_DIGIT_COUNT -> "Block 8-digit numbers" to "Common spam format"
-                    RuleType.BLOCK_FROM_LIST -> "Block local list" to "Numbers you've added manually"
-                    RuleType.BLOCK_REGEX -> "Pattern matching" to "Regex filtering"
-                    RuleType.BLOCK_ALL -> "Block all calls" to "Reject every incoming call"
+                    RuleType.BLOCK_DIGIT_COUNT -> {
+                        val count = (rule.config as? RuleConfig.DigitCount)?.count ?: 0
+                        stringResource(Res.string.rule_digit_count_title, count) to
+                            stringResource(Res.string.rule_digit_count_desc)
+                    }
+                    RuleType.BLOCK_FROM_LIST ->
+                        stringResource(Res.string.rule_list_title) to stringResource(Res.string.rule_list_desc)
+                    RuleType.BLOCK_REGEX ->
+                        stringResource(Res.string.rule_regex_title) to stringResource(Res.string.rule_regex_desc)
+                    RuleType.BLOCK_ALL ->
+                        stringResource(Res.string.rule_all_title) to stringResource(Res.string.rule_all_desc)
                 }
 
                 Column {
@@ -102,7 +112,7 @@ fun RulesScreen(
                             modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
                         ) {
                             Text(
-                                "Edit local list",
+                                stringResource(Res.string.rules_edit_list),
                                 color = Primary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp
@@ -115,7 +125,7 @@ fun RulesScreen(
                             modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
                         ) {
                             Text(
-                                "Edit pattern",
+                                stringResource(Res.string.rules_edit_pattern),
                                 color = Primary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp
@@ -138,12 +148,12 @@ fun RulesScreen(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Notify on block",
+                        text = stringResource(Res.string.rules_notify_title),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = "Receive a notification when filtered",
+                        text = stringResource(Res.string.rules_notify_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -165,8 +175,7 @@ fun RulesScreen(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        text = "Notification permission is required to show alerts when calls are blocked. " +
-                                "Please enable it in your device settings.",
+                        text = stringResource(Res.string.rules_notification_denied),
                         style = MaterialTheme.typography.bodySmall,
                         color = WarningAmber,
                         modifier = Modifier.padding(16.dp),

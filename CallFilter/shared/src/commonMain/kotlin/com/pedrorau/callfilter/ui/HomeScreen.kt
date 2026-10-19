@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pedrorau.callfilter.resources.*
+import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.model.SystemState
 import com.pedrorau.callfilter.ui.theme.*
 
@@ -28,23 +30,23 @@ fun HomeScreen(
     val (statusColor, statusTitle, statusDescription) = when (state.systemState) {
         SystemState.PROTECTION_ACTIVE -> Triple(
             SuccessGreen,
-            "Protection Active",
-            "CallFilter is protecting you from unwanted calls offline."
+            stringResource(Res.string.home_status_active_title),
+            stringResource(Res.string.home_status_active_desc)
         )
         SystemState.INCOMPLETE_SETUP -> Triple(
             WarningAmber,
-            "Incomplete Setup",
-            "Some settings need attention for full protection."
+            stringResource(Res.string.home_status_incomplete_title),
+            stringResource(Res.string.home_status_incomplete_desc)
         )
         SystemState.NOT_CONFIGURED -> Triple(
             ErrorRed,
-            "Not Configured",
-            "Enable call screening to start blocking unwanted calls."
+            stringResource(Res.string.home_status_not_configured_title),
+            stringResource(Res.string.home_status_not_configured_desc)
         )
         SystemState.POTENTIALLY_INCOMPATIBLE -> Triple(
             WarningAmber,
-            "Possibly Incompatible",
-            "Call screening is enabled, but your device may not support third-party call blocking."
+            stringResource(Res.string.home_status_incompatible_title),
+            stringResource(Res.string.home_status_incompatible_desc)
         )
     }
 
@@ -61,7 +63,7 @@ fun HomeScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "CallFilter",
+                text = stringResource(Res.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -133,8 +135,7 @@ fun HomeScreen(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        text = "Some Samsung devices with Android 12+ do not allow third-party apps to filter calls. " +
-                                "If you receive a call and it is not blocked, this device is not compatible.",
+                        text = stringResource(Res.string.home_samsung_warning),
                         style = MaterialTheme.typography.bodySmall,
                         color = WarningAmber,
                         textAlign = TextAlign.Center,
@@ -161,8 +162,7 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
-                            text = "Some phones may stop background call filtering. " +
-                                    "Allow unrestricted battery usage for better reliability.",
+                            text = stringResource(Res.string.home_battery_message),
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary,
                             textAlign = TextAlign.Center
@@ -174,7 +174,7 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                "Allow unrestricted usage",
+                                stringResource(Res.string.home_battery_action),
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 14.sp
                             )
@@ -201,7 +201,7 @@ fun HomeScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = Primary)
             ) {
                 Text(
-                    text = "Configure Rules",
+                    text = stringResource(Res.string.home_configure_rules),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )
@@ -220,7 +220,7 @@ fun HomeScreen(
                 border = null
             ) {
                 Text(
-                    text = "How it works",
+                    text = stringResource(Res.string.home_how_it_works),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )

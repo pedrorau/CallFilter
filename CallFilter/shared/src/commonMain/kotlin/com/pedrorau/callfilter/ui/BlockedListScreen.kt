@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pedrorau.callfilter.resources.*
+import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
 
@@ -36,9 +38,9 @@ fun BlockedListScreen(
         TopAppBar(
             title = {
                 Column {
-                    Text("Local Block List", fontWeight = FontWeight.Bold)
+                    Text(stringResource(Res.string.blocked_title), fontWeight = FontWeight.Bold)
                     Text(
-                        "Numbers here will be automatically rejected.",
+                        stringResource(Res.string.blocked_subtitle),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -64,7 +66,7 @@ fun BlockedListScreen(
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
-                placeholder = { Text("Enter phone number...") },
+                placeholder = { Text(stringResource(Res.string.blocked_input_placeholder)) },
                 shape = RoundedCornerShape(12.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
@@ -86,7 +88,7 @@ fun BlockedListScreen(
 
         if (state.numbers.isNotEmpty()) {
             Text(
-                text = "BLOCKED NUMBERS (${state.numbers.size})",
+                text = stringResource(Res.string.blocked_count, state.numbers.size),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.5.sp,
@@ -147,12 +149,12 @@ fun BlockedListScreen(
                             Text("\uD83D\uDCF1", fontSize = 48.sp)
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                "No blocked numbers yet",
+                                stringResource(Res.string.blocked_empty_title),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = TextSecondary
                             )
                             Text(
-                                "Add numbers above to start blocking.",
+                                stringResource(Res.string.blocked_empty_desc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = TextSecondary
                             )

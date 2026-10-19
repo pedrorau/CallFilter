@@ -16,29 +16,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pedrorau.callfilter.resources.*
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
 
 private data class OnboardingPage(
-    val title: String,
-    val description: String,
+    val title: StringResource,
+    val description: StringResource,
     val icon: String
 )
 
 private val pages = listOf(
     OnboardingPage(
-        title = "Private by Design",
-        description = "All filtering happens offline on your device. Your call data never leaves your phone.",
+        title = Res.string.onboarding_privacy_title,
+        description = Res.string.onboarding_privacy_desc,
         icon = "privacy"
     ),
     OnboardingPage(
-        title = "Set and Forget",
-        description = "Configure your preferences once. We'll handle the spam and telemarketers while you focus on what matters.",
+        title = Res.string.onboarding_automation_title,
+        description = Res.string.onboarding_automation_desc,
         icon = "automation"
     ),
     OnboardingPage(
-        title = "Enable Protection",
-        description = "CallFilter needs to be set as your call screening app to block unwanted calls automatically.",
+        title = Res.string.onboarding_permissions_title,
+        description = Res.string.onboarding_permissions_desc,
         icon = "permissions"
     )
 )
@@ -65,13 +68,13 @@ fun OnboardingScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "CallFilter",
+                text = stringResource(Res.string.app_name),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Primary
             )
             TextButton(onClick = onSkip) {
-                Text("Skip", color = Primary.copy(alpha = 0.8f))
+                Text(stringResource(Res.string.onboarding_skip), color = Primary.copy(alpha = 0.8f))
             }
         }
 
@@ -109,7 +112,7 @@ fun OnboardingScreen(
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Text(
-                        text = currentPage.title,
+                        text = stringResource(currentPage.title),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
@@ -118,7 +121,7 @@ fun OnboardingScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = currentPage.description,
+                        text = stringResource(currentPage.description),
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextSecondary,
                         textAlign = TextAlign.Center,
@@ -175,9 +178,9 @@ fun OnboardingScreen(
             ) {
                 Text(
                     text = if (state.currentPage == state.totalPages - 1) {
-                        "Enable call protection"
+                        stringResource(Res.string.onboarding_enable)
                     } else {
-                        "Next"
+                        stringResource(Res.string.onboarding_next)
                     },
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp

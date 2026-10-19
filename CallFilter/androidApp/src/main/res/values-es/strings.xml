@@ -1,0 +1,7 @@
+<resources>
+    <string name="notification_channel_name">Llamadas bloqueadas</string>
+    <string name="notification_channel_description">Notificaciones de llamadas bloqueadas</string>
+    <string name="notification_title">Llamada bloqueada</string>
+    <string name="notification_text">Se bloqueó una llamada de %1$s</string>
+    <string name="notification_unknown_number">un número desconocido</string>
+</resources>

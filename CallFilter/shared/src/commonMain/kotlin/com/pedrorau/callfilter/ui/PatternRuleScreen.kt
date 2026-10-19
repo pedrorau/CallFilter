@@ -17,16 +17,20 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pedrorau.callfilter.engine.RuleEngine
+import com.pedrorau.callfilter.resources.*
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.SuccessGreen
 import com.pedrorau.callfilter.ui.theme.TextSecondary
 
-private data class RegexExample(val pattern: String, val description: String)
+private data class RegexExample(val pattern: String, val description: StringResource)
 
 private val examples = listOf(
-    RegexExample("^\\+1800.*", "Blocks all 1-800 toll-free numbers"),
-    RegexExample("^(\\+44|0)7.*", "UK Mobile number patterns"),
-    RegexExample("^\\d{8}$", "Exactly 8-digit numbers")
+    RegexExample("^\\d{8}$", Res.string.pattern_example_digits),
+    RegexExample("^\\+52", Res.string.pattern_example_country),
+    RegexExample("^\\+511", Res.string.pattern_example_lima)
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +49,7 @@ fun PatternRuleScreen(
     ) {
         TopAppBar(
             title = {
-                Text("Pattern Rule", fontWeight = FontWeight.Bold)
+                Text(stringResource(Res.string.pattern_title), fontWeight = FontWeight.Bold)
             },
             navigationIcon = {
                 IconButton(onClick = onBack) {
@@ -62,7 +66,7 @@ fun PatternRuleScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Regular Expression",
+                text = stringResource(Res.string.pattern_label),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold
             )
@@ -73,7 +77,7 @@ fun PatternRuleScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 120.dp),
-                placeholder = { Text("e.g. ^\\+1800.*") },
+                placeholder = { Text(stringResource(Res.string.pattern_placeholder, examples[1].pattern)) },
                 textStyle = LocalTextStyle.current.copy(
                     fontFamily = FontFamily.Monospace,
                     color = Primary,
@@ -90,7 +94,7 @@ fun PatternRuleScreen(
             )
 
             Text(
-                text = "Use this for advanced filtering, like blocking all numbers starting with +1-800.",
+                text = stringResource(Res.string.pattern_help),
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )
@@ -119,13 +123,13 @@ fun PatternRuleScreen(
                             }
                             Column {
                                 Text(
-                                    "Pattern valid",
+                                    stringResource(Res.string.pattern_valid_title),
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,
                                     color = SuccessGreen
                                 )
                                 Text(
-                                    "This regex syntax is correct and ready to use.",
+                                    stringResource(Res.string.pattern_valid_desc),
                                     fontSize = 12.sp,
                                     color = SuccessGreen.copy(alpha = 0.8f)
                                 )
@@ -155,12 +159,19 @@ fun PatternRuleScreen(
                             }
                             Column {
                                 Text(
-                                    "Invalid pattern",
+                                    stringResource(Res.string.pattern_invalid_title),
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp,
                                     color = MaterialTheme.colorScheme.error
                                 )
-                                state.errorMessage?.let {
+                                val errorMessage = when (state.error) {
+                                    PatternError.TOO_LONG ->
+                                        stringResource(Res.string.pattern_error_too_long, RuleEngine.MAX_PATTERN_LENGTH)
+                                    PatternError.INVALID_SYNTAX ->
+                                        stringResource(Res.string.pattern_error_syntax, state.errorDetail.orEmpty())
+                                    null -> null
+                                }
+                                errorMessage?.let {
                                     Text(
                                         it,
                                         fontSize = 12.sp,
@@ -175,7 +186,7 @@ fun PatternRuleScreen(
 
             if (state.saved) {
                 Text(
-                    text = "Pattern saved successfully!",
+                    text = stringResource(Res.string.pattern_saved),
                     color = SuccessGreen,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
@@ -183,7 +194,7 @@ fun PatternRuleScreen(
             }
 
             Text(
-                text = "COMMON EXAMPLES",
+                text = stringResource(Res.string.pattern_examples),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.5.sp
@@ -205,7 +216,7 @@ fun PatternRuleScreen(
                             fontSize = 14.sp
                         )
                         Text(
-                            text = example.description,
+                            text = stringResource(example.description),
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary
                         )
@@ -229,14 +240,14 @@ fun PatternRuleScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = Primary),
                 enabled = state.isValid
             ) {
-                Text("Validate & Save", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(stringResource(Res.string.pattern_save), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
 
             TextButton(
                 onClick = onBack,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Cancel", color = TextSecondary)
+                Text(stringResource(Res.string.common_cancel), color = TextSecondary)
             }
         }
     }

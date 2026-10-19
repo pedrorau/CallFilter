@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">callfilter</string>
+    <string name="app_name">CallFilter</string>
+    <string name="notification_channel_name">Blocked calls</string>
+    <string name="notification_channel_description">Notifications for blocked calls</string>
+    <string name="notification_title">Call blocked</string>
+    <string name="notification_text">Blocked call from %1$s</string>
+    <string name="notification_unknown_number">an unknown number</string>
 </resources>

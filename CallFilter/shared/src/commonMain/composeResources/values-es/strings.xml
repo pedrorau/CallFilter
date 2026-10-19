@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">CallFilter</string>
+    <string name="common_cancel">Cancelar</string>
+
+    <!-- Home -->
+    <string name="home_status_active_title">Protección activa</string>
+    <string name="home_status_active_desc">CallFilter te protege de llamadas no deseadas, sin conexión a internet.</string>
+    <string name="home_status_incomplete_title">Configuración incompleta</string>
+    <string name="home_status_incomplete_desc">Algunos ajustes requieren atención para una protección completa.</string>
+    <string name="home_status_not_configured_title">Sin configurar</string>
+    <string name="home_status_not_configured_desc">Activa el filtrado de llamadas para empezar a bloquear llamadas no deseadas.</string>
+    <string name="home_status_incompatible_title">Posiblemente incompatible</string>
+    <string name="home_status_incompatible_desc">El filtrado de llamadas está activado, pero es posible que tu dispositivo no permita bloquear llamadas con apps de terceros.</string>
+    <string name="home_samsung_warning">Algunos dispositivos Samsung con Android 12 o superior no permiten que apps de terceros filtren llamadas. Si recibes una llamada que debía bloquearse y no se bloquea, este dispositivo no es compatible.</string>
+    <string name="home_battery_message">Algunos teléfonos pueden detener el filtrado en segundo plano. Permite el uso de batería sin restricciones para que funcione de forma confiable.</string>
+    <string name="home_battery_action">Permitir uso sin restricciones</string>
+    <string name="home_configure_rules">Configurar reglas</string>
+    <string name="home_how_it_works">Cómo funciona</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Omitir</string>
+    <string name="onboarding_privacy_title">Privada por diseño</string>
+    <string name="onboarding_privacy_desc">Todo el filtrado ocurre sin conexión, en tu dispositivo. Tus datos de llamadas nunca salen de tu teléfono.</string>
+    <string name="onboarding_automation_title">Configura y olvídate</string>
+    <string name="onboarding_automation_desc">Configura tus preferencias una sola vez. Nosotros nos encargamos del spam y el telemarketing mientras tú te enfocas en lo importante.</string>
+    <string name="onboarding_permissions_title">Activa la protección</string>
+    <string name="onboarding_permissions_desc">CallFilter debe estar configurada como tu app de filtrado de llamadas para bloquear automáticamente las llamadas no deseadas.</string>
+    <string name="onboarding_enable">Activar protección</string>
+    <string name="onboarding_next">Siguiente</string>
+
+    <!-- Rules -->
+    <string name="rules_title">Reglas de filtrado</string>
+    <string name="rules_active_filters">FILTROS ACTIVOS</string>
+    <string name="rule_digit_count_title">Bloquear números de %1$d dígitos</string>
+    <string name="rule_digit_count_desc">Formato común de spam</string>
+    <string name="rule_list_title">Bloquear lista local</string>
+    <string name="rule_list_desc">Números que agregaste manualmente</string>
+    <string name="rule_regex_title">Coincidencia de patrón</string>
+    <string name="rule_regex_desc">Filtrado con regex</string>
+    <string name="rule_all_title">Bloquear todas las llamadas</string>
+    <string name="rule_all_desc">Rechaza todas las llamadas entrantes</string>
+    <string name="rules_edit_list">Editar lista local</string>
+    <string name="rules_edit_pattern">Editar patrón</string>
+    <string name="rules_notify_title">Notificar al bloquear</string>
+    <string name="rules_notify_desc">Recibe una notificación cuando se bloquee una llamada</string>
+    <string name="rules_notification_denied">Se necesita el permiso de notificaciones para avisarte cuando se bloquee una llamada. Actívalo en los ajustes de tu dispositivo.</string>
+
+    <!-- Pattern rule -->
+    <string name="pattern_title">Regla de patrón</string>
+    <string name="pattern_label">Expresión regular (regex)</string>
+    <string name="pattern_placeholder">p. ej. %1$s</string>
+    <string name="pattern_help">Úsala para filtros avanzados, como bloquear todas las llamadas de un código de país.</string>
+    <string name="pattern_valid_title">Patrón válido</string>
+    <string name="pattern_valid_desc">La sintaxis de esta regex es correcta y está lista para usarse.</string>
+    <string name="pattern_invalid_title">Patrón no válido</string>
+    <string name="pattern_error_too_long">Patrón demasiado largo (máximo %1$d caracteres)</string>
+    <string name="pattern_error_syntax">Sintaxis de regex no válida: %1$s</string>
+    <string name="pattern_saved">¡Patrón guardado!</string>
+    <string name="pattern_examples">EJEMPLOS COMUNES</string>
+    <string name="pattern_example_digits">Números de exactamente 8 dígitos</string>
+    <string name="pattern_example_country">Todas las llamadas de México (+52)</string>
+    <string name="pattern_example_lima">Teléfonos fijos de Lima, Perú (+51 1)</string>
+    <string name="pattern_save">Validar y guardar</string>
+
+    <!-- Blocked list -->
+    <string name="blocked_title">Lista de bloqueo local</string>
+    <string name="blocked_subtitle">Las llamadas de estos números se rechazarán automáticamente.</string>
+    <string name="blocked_input_placeholder">Ingresa un número de teléfono…</string>
+    <string name="blocked_count">NÚMEROS BLOQUEADOS (%1$d)</string>
+    <string name="blocked_empty_title">Aún no hay números bloqueados</string>
+    <string name="blocked_empty_desc">Agrega números arriba para empezar a bloquear.</string>
+</resources>

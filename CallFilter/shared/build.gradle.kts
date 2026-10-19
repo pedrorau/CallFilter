@@ -60,3 +60,7 @@ kotlin {
         }
     }
 }
+
+compose.resources {
+    packageOfResClass = "com.pedrorau.callfilter.resources"
+}

@@ -8,10 +8,14 @@ import com.pedrorau.callfilter.repository.RuleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+enum class PatternError { TOO_LONG, INVALID_SYNTAX }
+
 data class PatternRuleState(
     val pattern: String = "",
     val isValid: Boolean = true,
-    val errorMessage: String? = null,
+    val error: PatternError? = null,
+    /** Technical detail from the regex engine, shown as-is for [PatternError.INVALID_SYNTAX]. */
+    val errorDetail: String? = null,
     val saved: Boolean = false
 )
 
@@ -30,11 +34,12 @@ class PatternRuleViewModel(
     }
 
     fun updatePattern(pattern: String) {
-        val validation = validatePattern(pattern)
+        val (error, detail) = validatePattern(pattern)
         _state.value = _state.value.copy(
             pattern = pattern,
-            isValid = validation.first,
-            errorMessage = validation.second,
+            isValid = error == null,
+            error = error,
+            errorDetail = detail,
             saved = false
         )
     }
@@ -48,16 +53,14 @@ class PatternRuleViewModel(
         _state.value = current.copy(saved = true)
     }
 
-    private fun validatePattern(pattern: String): Pair<Boolean, String?> {
-        if (pattern.isBlank()) return Pair(true, null)
-        if (pattern.length > RuleEngine.MAX_PATTERN_LENGTH) {
-            return Pair(false, "Pattern too long (max ${RuleEngine.MAX_PATTERN_LENGTH} characters)")
-        }
+    private fun validatePattern(pattern: String): Pair<PatternError?, String?> {
+        if (pattern.isBlank()) return null to null
+        if (pattern.length > RuleEngine.MAX_PATTERN_LENGTH) return PatternError.TOO_LONG to null
         return try {
             Regex(pattern)
-            Pair(true, null)
+            null to null
         } catch (e: Exception) {
-            Pair(false, "Invalid regex: ${e.message}")
+            PatternError.INVALID_SYNTAX to e.message
         }
     }
 }
