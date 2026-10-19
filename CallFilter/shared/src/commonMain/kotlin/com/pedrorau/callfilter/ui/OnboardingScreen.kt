@@ -17,10 +17,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pedrorau.callfilter.resources.*
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 private data class OnboardingPage(
     val title: StringResource,

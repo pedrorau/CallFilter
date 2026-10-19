@@ -16,7 +16,13 @@ sealed class RuleConfig {
     data object None : RuleConfig()
 
     @Serializable
-    data class DigitCount(val count: Int) : RuleConfig()
+    data class DigitCount(val count: Int) : RuleConfig() {
+        companion object {
+            const val MIN = 3
+            /** E.164 numbers have at most 15 digits. */
+            const val MAX = 15
+        }
+    }
 
     @Serializable
     data class RegexPattern(val pattern: String) : RuleConfig()

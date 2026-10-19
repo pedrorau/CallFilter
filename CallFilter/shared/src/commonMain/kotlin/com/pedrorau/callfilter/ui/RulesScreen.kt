@@ -4,22 +4,29 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pedrorau.callfilter.resources.*
-import org.jetbrains.compose.resources.stringResource
+import com.pedrorau.callfilter.model.Rule
 import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.model.RuleType
+import com.pedrorau.callfilter.resources.*
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
 import com.pedrorau.callfilter.ui.theme.WarningAmber
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,10 +34,24 @@ fun RulesScreen(
     state: RulesState,
     onToggleRule: (String, Boolean) -> Unit,
     onToggleNotifications: (Boolean) -> Unit,
+    onSetDigitCount: (String, Int) -> Unit,
     onEditPattern: () -> Unit,
     onEditBlockedList: () -> Unit,
     onBack: () -> Unit
 ) {
+    var editingDigitCountRule by remember { mutableStateOf<Rule?>(null) }
+
+    editingDigitCountRule?.let { rule ->
+        DigitCountDialog(
+            initialCount = (rule.config as? RuleConfig.DigitCount)?.count ?: RuleConfig.DigitCount.MIN,
+            onConfirm = { count ->
+                onSetDigitCount(rule.id, count)
+                editingDigitCountRule = null
+            },
+            onDismiss = { editingDigitCountRule = null }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -106,6 +127,19 @@ fun RulesScreen(
                         )
                     }
 
+                    if (rule.type == RuleType.BLOCK_DIGIT_COUNT) {
+                        TextButton(
+                            onClick = { editingDigitCountRule = rule },
+                            modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
+                        ) {
+                            Text(
+                                stringResource(Res.string.rules_edit_digit_count),
+                                color = Primary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
                     if (rule.type == RuleType.BLOCK_FROM_LIST) {
                         TextButton(
                             onClick = onEditBlockedList,
@@ -185,4 +219,55 @@ fun RulesScreen(
             }
         }
     }
+}
+
+@Composable
+private fun DigitCountDialog(
+    initialCount: Int,
+    onConfirm: (Int) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var input by remember { mutableStateOf(initialCount.toString()) }
+    val count = input.toIntOrNull()
+    val isValid = count != null && count in RuleConfig.DigitCount.MIN..RuleConfig.DigitCount.MAX
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.digit_count_dialog_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(
+                    stringResource(Res.string.digit_count_dialog_desc),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TextSecondary
+                )
+                OutlinedTextField(
+                    value = input,
+                    onValueChange = { value -> input = value.filter { it.isDigit() }.take(2) },
+                    singleLine = true,
+                    isError = !isValid,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    supportingText = {
+                        Text(
+                            stringResource(
+                                Res.string.digit_count_dialog_range,
+                                RuleConfig.DigitCount.MIN,
+                                RuleConfig.DigitCount.MAX
+                            )
+                        )
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { count?.let(onConfirm) }, enabled = isValid) {
+                Text(stringResource(Res.string.common_save), color = if (isValid) Primary else TextSecondary)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.common_cancel), color = TextSecondary)
+            }
+        }
+    )
 }

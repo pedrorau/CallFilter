@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CallFilter</string>
     <string name="common_cancel">Cancel</string>
+    <string name="common_save">Save</string>
 
     <!-- Home -->
     <string name="home_status_active_title">Protection Active</string>
@@ -39,11 +40,17 @@
     <string name="rule_regex_desc">Regex filtering</string>
     <string name="rule_all_title">Block all calls</string>
     <string name="rule_all_desc">Reject every incoming call</string>
+    <string name="rules_edit_digit_count">Change number of digits</string>
     <string name="rules_edit_list">Edit local list</string>
     <string name="rules_edit_pattern">Edit pattern</string>
     <string name="rules_notify_title">Notify on block</string>
     <string name="rules_notify_desc">Receive a notification when a call is blocked</string>
     <string name="rules_notification_denied">Notification permission is required to show alerts when calls are blocked. Please enable it in your device settings.</string>
+
+    <!-- Digit count dialog -->
+    <string name="digit_count_dialog_title">Number of digits</string>
+    <string name="digit_count_dialog_desc">Calls from numbers with exactly this many digits will be blocked. The number is counted as it arrives, including any country code.</string>
+    <string name="digit_count_dialog_range">Between %1$d and %2$d</string>
 
     <!-- Pattern rule -->
     <string name="pattern_title">Pattern Rule</string>

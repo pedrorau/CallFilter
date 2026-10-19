@@ -106,6 +106,7 @@ fun AppNavigation(
                         rulesViewModel.toggleNotifications(false)
                     }
                 },
+                onSetDigitCount = { id, count -> rulesViewModel.setDigitCount(id, count) },
                 onEditPattern = { navController.navigate(Routes.PATTERN_RULE) },
                 onEditBlockedList = { navController.navigate(Routes.BLOCKED_LIST) },
                 onBack = { navController.popBackStack() }

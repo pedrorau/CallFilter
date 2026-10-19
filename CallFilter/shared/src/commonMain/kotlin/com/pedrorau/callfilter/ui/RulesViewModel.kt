@@ -2,6 +2,7 @@ package com.pedrorau.callfilter.ui
 
 import androidx.lifecycle.ViewModel
 import com.pedrorau.callfilter.model.Rule
+import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.repository.PreferencesRepository
 import com.pedrorau.callfilter.repository.RuleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,13 @@ class RulesViewModel(
 
     fun toggleRule(ruleId: String, enabled: Boolean) {
         ruleRepository.setRuleEnabled(ruleId, enabled)
+        loadRules()
+    }
+
+    /** Ignores values outside [RuleConfig.DigitCount.MIN]..[RuleConfig.DigitCount.MAX]; the UI validates first. */
+    fun setDigitCount(ruleId: String, count: Int) {
+        if (count !in RuleConfig.DigitCount.MIN..RuleConfig.DigitCount.MAX) return
+        ruleRepository.updateRule(ruleId) { it.copy(config = RuleConfig.DigitCount(count)) }
         loadRules()
     }
 

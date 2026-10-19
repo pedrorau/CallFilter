@@ -15,10 +15,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pedrorau.callfilter.resources.*
-import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.model.SystemState
+import com.pedrorau.callfilter.resources.*
 import com.pedrorau.callfilter.ui.theme.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HomeScreen(

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CallFilter</string>
     <string name="common_cancel">Cancelar</string>
+    <string name="common_save">Guardar</string>
 
     <!-- Home -->
     <string name="home_status_active_title">Protección activa</string>
@@ -39,11 +40,17 @@
     <string name="rule_regex_desc">Filtrado con regex</string>
     <string name="rule_all_title">Bloquear todas las llamadas</string>
     <string name="rule_all_desc">Rechaza todas las llamadas entrantes</string>
+    <string name="rules_edit_digit_count">Cambiar cantidad de dígitos</string>
     <string name="rules_edit_list">Editar lista local</string>
     <string name="rules_edit_pattern">Editar patrón</string>
     <string name="rules_notify_title">Notificar al bloquear</string>
     <string name="rules_notify_desc">Recibe una notificación cuando se bloquee una llamada</string>
     <string name="rules_notification_denied">Se necesita el permiso de notificaciones para avisarte cuando se bloquee una llamada. Actívalo en los ajustes de tu dispositivo.</string>
+
+    <!-- Digit count dialog -->
+    <string name="digit_count_dialog_title">Cantidad de dígitos</string>
+    <string name="digit_count_dialog_desc">Se bloquearán las llamadas de números con exactamente esta cantidad de dígitos. El número se cuenta tal como llega, incluido el código de país si lo trae.</string>
+    <string name="digit_count_dialog_range">Entre %1$d y %2$d</string>
 
     <!-- Pattern rule -->
     <string name="pattern_title">Regla de patrón</string>

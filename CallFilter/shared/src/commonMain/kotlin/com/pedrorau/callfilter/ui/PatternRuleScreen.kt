@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pedrorau.callfilter.engine.RuleEngine
 import com.pedrorau.callfilter.resources.*
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.SuccessGreen
 import com.pedrorau.callfilter.ui.theme.TextSecondary
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 private data class RegexExample(val pattern: String, val description: StringResource)
 

@@ -16,9 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pedrorau.callfilter.resources.*
-import org.jetbrains.compose.resources.stringResource
 import com.pedrorau.callfilter.ui.theme.Primary
 import com.pedrorau.callfilter.ui.theme.TextSecondary
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

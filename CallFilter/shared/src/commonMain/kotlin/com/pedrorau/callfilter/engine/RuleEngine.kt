@@ -37,11 +37,11 @@ class RuleEngine(
         }
     }
 
-    // Counts digits as received and as a national number, so "+51 1234 5678" and "12345678" both count as 8.
+    // Counts digits exactly as received. The national form is deliberately ignored: in Peru every landline has
+    // 8 national digits (e.g. "01 712 3456" -> "17123456"), so using it would block legitimate landlines.
     private fun matchesDigitCount(phoneNumber: PhoneNumber, config: RuleConfig): Boolean {
         val count = (config as? RuleConfig.DigitCount)?.count ?: return false
-        val rawDigits = phoneNumber.raw.count { it.isDigit() }
-        return rawDigits == count || phoneNumber.national.length == count
+        return phoneNumber.raw.count { it.isDigit() } == count
     }
 
     // Tries every form so users can write patterns in international (^\+51) or local (^\d{8}$) style.

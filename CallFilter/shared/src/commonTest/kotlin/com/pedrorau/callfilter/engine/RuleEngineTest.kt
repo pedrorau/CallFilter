@@ -145,13 +145,27 @@ class RuleEngineTest {
     }
 
     @Test
-    fun digitCountUsesNationalNumberWhenCountryCodeIsPresent() {
+    fun digitCountIgnoresNationalForm() {
         val engine = RuleEngine()
         val rules = listOf(
             Rule("1", RuleType.BLOCK_DIGIT_COUNT, enabled = true, config = RuleConfig.DigitCount(8))
         )
-        val number = PhoneNumber(raw = "+51 1234 5678", e164 = "+5112345678", national = "12345678")
-        assertEquals(RuleResult.REJECT, engine.evaluate(number, rules))
+        // Lima landline: 9 digits as received, 8 as a national number. Must not be blocked.
+        val limaLandline = PhoneNumber(raw = "01 712 3456", e164 = "+5117123456", national = "17123456")
+        assertEquals(RuleResult.ALLOW, engine.evaluate(limaLandline, rules))
+
+        val spam = PhoneNumber(raw = "99008899", e164 = "+5199008899", national = "99008899")
+        assertEquals(RuleResult.REJECT, engine.evaluate(spam, rules))
+    }
+
+    @Test
+    fun digitCountUsesConfiguredValue() {
+        val engine = RuleEngine()
+        val rules = listOf(
+            Rule("1", RuleType.BLOCK_DIGIT_COUNT, enabled = true, config = RuleConfig.DigitCount(7))
+        )
+        assertEquals(RuleResult.REJECT, engine.evaluate("7123456", rules))
+        assertEquals(RuleResult.ALLOW, engine.evaluate("99008899", rules))
     }
 
     @Test
