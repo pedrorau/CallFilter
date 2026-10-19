@@ -24,7 +24,7 @@ iosApp/Pods/
 iosApp/.cocoapods/
 iosApp/build/
 shared/build/
-composeApp/build/
+androidApp/build/
 
 keystore.properties
 *.jks

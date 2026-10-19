@@ -4,12 +4,12 @@ import android.content.Context
 import android.telephony.TelephonyManager
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.pedrorau.callfilter.CallFilterApplication
+import com.pedrorau.callfilter.platform.AppContext
 import com.pedrorau.callfilter.model.PhoneNumber
 import java.util.Locale
 
 actual fun platformPhoneNumberNormalizer(): PhoneNumberNormalizer =
-    LibPhoneNumberNormalizer { deviceRegion(CallFilterApplication.context) }
+    LibPhoneNumberNormalizer { deviceRegion(AppContext.value) }
 
 class LibPhoneNumberNormalizer(
     private val regionProvider: () -> String
