@@ -10,7 +10,6 @@ class BlockNotificationManager(private val context: Context) {
     companion object {
         private const val CHANNEL_ID = "blocked_calls"
         private const val CHANNEL_NAME = "Blocked Calls"
-        private var notificationId = 1000
     }
 
     init {
@@ -27,7 +26,9 @@ class BlockNotificationManager(private val context: Context) {
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(notificationId++, notification)
+        // Time-based so IDs stay unique across process restarts and don't replace earlier notifications.
+        val notificationId = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
+        manager.notify(notificationId, notification)
     }
 
     private fun createNotificationChannel() {

@@ -6,17 +6,19 @@ import com.pedrorau.callfilter.model.BlockedNumber
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class BlockedNumberRepository(
     private val settings: Settings = Settings(),
-    private val normalizer: PhoneNumberNormalizer = platformPhoneNumberNormalizer()
+    private val normalizer: PhoneNumberNormalizer = platformPhoneNumberNormalizer(),
+    private val now: () -> Long = ::currentTimeMillis
 ) {
 
     private val json = Json { ignoreUnknownKeys = true }
 
     companion object {
         private const val KEY_BLOCKED_NUMBERS = "blocked_numbers"
-        private var counter = 0L
     }
 
     fun getBlockedNumbers(): List<BlockedNumber> {
@@ -38,7 +40,7 @@ class BlockedNumberRepository(
             BlockedNumber(
                 id = id,
                 number = number,
-                addedTimestamp = ++counter
+                addedTimestamp = now()
             )
         )
         save(list)
@@ -58,3 +60,6 @@ class BlockedNumberRepository(
         settings.putString(KEY_BLOCKED_NUMBERS, json.encodeToString(list))
     }
 }
+
+@OptIn(ExperimentalTime::class)
+private fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()

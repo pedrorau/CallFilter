@@ -116,6 +116,16 @@ class RuleEngineTest {
     }
 
     @Test
+    fun regexLongerThanLimitIsIgnored() {
+        val engine = RuleEngine()
+        val pattern = "\\d" + "?".repeat(RuleEngine.MAX_PATTERN_LENGTH)
+        val rules = listOf(
+            Rule("3", RuleType.BLOCK_REGEX, enabled = true, config = RuleConfig.RegexPattern(pattern))
+        )
+        assertEquals(RuleResult.ALLOW, engine.evaluate("12345678", rules))
+    }
+
+    @Test
     fun emptyRegexPatternDoesNotMatch() {
         val engine = RuleEngine()
         val rules = listOf(

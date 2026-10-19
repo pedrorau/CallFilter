@@ -33,6 +33,8 @@ class OnboardingViewModel(
 
     fun completeOnboarding() {
         preferencesRepository.setOnboardingCompleted(true)
+        // Reopening it from Home ("How it works") should start from the first page again.
+        _state.value = OnboardingState()
     }
 
     fun isOnboardingCompleted(): Boolean {

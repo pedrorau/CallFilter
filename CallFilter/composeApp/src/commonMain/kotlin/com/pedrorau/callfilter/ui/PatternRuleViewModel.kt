@@ -1,6 +1,7 @@
 package com.pedrorau.callfilter.ui
 
 import androidx.lifecycle.ViewModel
+import com.pedrorau.callfilter.engine.RuleEngine
 import com.pedrorau.callfilter.model.RuleConfig
 import com.pedrorau.callfilter.model.RuleType
 import com.pedrorau.callfilter.repository.RuleRepository
@@ -49,6 +50,9 @@ class PatternRuleViewModel(
 
     private fun validatePattern(pattern: String): Pair<Boolean, String?> {
         if (pattern.isBlank()) return Pair(true, null)
+        if (pattern.length > RuleEngine.MAX_PATTERN_LENGTH) {
+            return Pair(false, "Pattern too long (max ${RuleEngine.MAX_PATTERN_LENGTH} characters)")
+        }
         return try {
             Regex(pattern)
             Pair(true, null)

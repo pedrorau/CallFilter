@@ -10,6 +10,11 @@ class RuleEngine(
     private val blockedNumberLookup: (e164: String) -> Boolean = { false }
 ) {
 
+    companion object {
+        /** Long patterns aren't needed for phone numbers and raise the risk of catastrophic backtracking. */
+        const val MAX_PATTERN_LENGTH = 100
+    }
+
     fun evaluate(phoneNumber: String, rules: List<Rule>): RuleResult =
         evaluate(PhoneNumber.fromRaw(phoneNumber), rules)
 
@@ -42,7 +47,7 @@ class RuleEngine(
     // Tries every form so users can write patterns in international (^\+51) or local (^\d{8}$) style.
     private fun matchesRegex(phoneNumber: PhoneNumber, config: RuleConfig): Boolean {
         val pattern = (config as? RuleConfig.RegexPattern)?.pattern
-        if (pattern.isNullOrBlank()) return false
+        if (pattern.isNullOrBlank() || pattern.length > MAX_PATTERN_LENGTH) return false
         return try {
             val regex = Regex(pattern)
             listOf(phoneNumber.raw, phoneNumber.e164, phoneNumber.national)

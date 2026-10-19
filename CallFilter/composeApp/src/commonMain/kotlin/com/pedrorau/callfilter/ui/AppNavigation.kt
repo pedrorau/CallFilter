@@ -37,29 +37,31 @@ fun AppNavigation(
         Routes.ONBOARDING
     }
 
+    // Onboarding is reachable from Home ("How it works"): go back to that Home instead of stacking a new one.
+    val finishOnboarding = {
+        onboardingViewModel.completeOnboarding()
+        if (!navController.popBackStack(Routes.HOME, inclusive = false)) {
+            navController.navigate(Routes.HOME) {
+                popUpTo(Routes.ONBOARDING) { inclusive = true }
+            }
+        }
+    }
+
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Routes.ONBOARDING) {
             OnboardingScreen(
                 viewModel = onboardingViewModel,
-                onComplete = {
-                    onboardingViewModel.completeOnboarding()
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.ONBOARDING) { inclusive = true }
-                    }
-                },
-                onSkip = {
-                    onboardingViewModel.completeOnboarding()
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.ONBOARDING) { inclusive = true }
-                    }
-                }
+                onComplete = finishOnboarding,
+                onSkip = finishOnboarding
             )
         }
 
         composable(Routes.HOME) {
             val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
-            homeViewModel.updateSystemState(systemState)
-            homeViewModel.updateBatteryOptimization(isBatteryOptimized)
+            LaunchedEffect(systemState, isBatteryOptimized) {
+                homeViewModel.updateSystemState(systemState)
+                homeViewModel.updateBatteryOptimization(isBatteryOptimized)
+            }
             val state by homeViewModel.state.collectAsState()
             HomeScreen(
                 state = state,
